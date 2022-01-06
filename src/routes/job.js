@@ -78,15 +78,15 @@ router.use(bodyParser.json());
                 ]
             }
         }, {transaction: transaction})
-        const contractor_profile = await Profile.findOne({where: {id: job.Contract.ContractorId }}, {transaction: transaction});
-        if(!client_profile){
-            //we should never be there, as the contractor must exist
-            await transaction.rollback()
-            return res.status(500).end()
-        }
         if(!job){
             await transaction.rollback()
             return res.status(404).end()
+        }
+        const contractor_profile = await Profile.findOne({where: {id: job.Contract.ContractorId }}, {transaction: transaction});
+        if(!contractor_profile){
+            //we should never be there, as the contractor must exist
+            await transaction.rollback()
+            return res.status(500).end()
         }
         if(job.price > client_profile.balance){
             await transaction.rollback()

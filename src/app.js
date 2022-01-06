@@ -7,10 +7,11 @@ app.use(bodyParser.json());
 app.set('sequelize', sequelize)
 app.set('models', sequelize.models)
 
-var route_contracts = require('./routes/contracts');
-var route_jobs = require('./routes/jobs');
+var route_contract = require('./routes/contract');
+var route_job = require('./routes/job');
+var route_balance = require('./routes/balance');
 
-app.use('/contracts', route_contracts);
-app.use('/jobs', route_jobs);
+app.use('/contracts', route_contract);
+app.use('/jobs', route_job);
 
 module.exports = app;
