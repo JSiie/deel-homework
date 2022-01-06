@@ -29,9 +29,12 @@ router.use(bodyParser.json());
     const {Contract} = req.app.get('models')
     const {profile} = req
     const contract = await Contract.findAll({where: {
-                                                        [Op.or]: [
-                                                            { ClientId: profile.id },
-                                                            { ContractorId: profile.id }
+                                                        [Op.and]: [
+                                                            {[Op.or]: [
+                                                                { ClientId: profile.id },
+                                                                { ContractorId: profile.id }
+                                                            ]},
+                                                            {[Op.not]: [{status: 'terminated' }]}
                                                         ]
                                                     }
     })
