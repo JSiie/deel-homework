@@ -13,5 +13,6 @@ var route_balance = require('./routes/balance');
 
 app.use('/contracts', route_contract);
 app.use('/jobs', route_job);
+app.use('/balances', route_balance);
 
 module.exports = app;
