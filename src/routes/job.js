@@ -36,7 +36,8 @@ router.use(bodyParser.json());
 })
 
 /**
- * @returns pay for a job
+ * @returns nothing
+ * pay for a job
  * There is a concurrent access possible:
  * if we check balance then initiate payment, balance could change in the meantime
  * If we initiate payment, we need a safe way to manage balances 
