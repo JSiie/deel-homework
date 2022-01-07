@@ -28,19 +28,15 @@ router.use(bodyParser.json());
         if(typeof start != "number") return res.status(500).send('wrong start date')
         if(typeof end != "number") return res.status(500).send('wrong end date')
 
-        const contractor_profile = await Profile.findOne({where: {id: profile.id }});
-        if(!contractor_profile){
-            //we should never be there, as the middleware has already find the profile
-            return res.status(500).end()
-        }
-        if(!(contractor_profile.type === 'contractor')){
-            //we should never be there, as the middleware has already find the profile
-            return res.status(401).end()
-        }
         const job = await Job.findOne(  {   
             include: {
                 model: Contract ,
-                attributes: ['ContractorId']
+                attributes: [],
+                include: {
+                    model: Profile,
+                    as: 'Contractor',
+                    attributes: ['profession'],
+                }
             },
             where: {
                 paid: true,
@@ -48,10 +44,10 @@ router.use(bodyParser.json());
                 paymentDate : {[Op.lte]: end}
             },
             attributes: [
-                'Contract.ContractorId',
+                [Sequelize.literal('"Contract->Contractor"."profession"'), 'profession'],
                 [sequelize.fn('sum', sequelize.col('price')), 'total_amount'],
             ],
-            group: ['Contract.ContractorId'],
+            group: ['Contract.Contractor.profession'],
             order: sequelize.literal('total_amount DESC')
         })
         res.json(job)
