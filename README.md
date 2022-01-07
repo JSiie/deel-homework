@@ -1,3 +1,13 @@
+# CANDIDATE NOTES
+
+- I am not sure of requested input format for deposit
+Also, Improvments should be done on various fields:
+- error management
+- log management
+- unit tests
+- data improvment through different payment dates
+
+
 # DEEL BACKEND TASK
 
   
